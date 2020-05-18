@@ -10,6 +10,146 @@ const outputPath = path.join(OUTPUT_DIR, "team.html");
 
 const render = require("./lib/htmlRenderer");
 
+const team = [];
+let memberType = "";
+let memberCreation = true;
+
+// Function to create manager object
+//const generateManager = () => {
+inquirer
+  .prompt([
+    // Ask for manager's name & check to make sure field isn't empty
+    {
+      type: "input",
+      message: "What is your manager's name?",
+      name: "managerName",
+      validate: async (input) => {
+        if (input === "") {
+          return "Please provide a valid username.";
+        } else {
+          return true;
+        }
+      },
+    },
+    // Ask for manager's id & check to make sure input is a number or is not empty
+    {
+      type: "input",
+      message: "What is your manager's id?",
+      name: "managerId",
+      validate: async (input) => {
+        if (input === "" || isNaN(input)) {
+          return "Ids can only contain whole numbers.";
+        } else {
+          return true;
+        }
+      },
+    },
+    // Ask for manager's email & check to make sure input is a valid email or is not empty
+    {
+      type: "input",
+      message: "What is your manager's email?",
+      name: "managerEmail",
+      validate: async (input) => {
+        const emailValidation = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(
+          input
+        );
+        if (input === "" || !emailValidation) {
+          return "Please enter a valid email address.";
+        } else {
+          return true;
+        }
+      },
+    },
+    // Ask for manager's number & check to make sure input is a number or is not empty
+    {
+      type: "input",
+      message: "What is your manager's office number?",
+      name: "managerNum",
+      validate: async (input) => {
+        if (input === "" || isNaN(input)) {
+          return "Please enter a valid number.";
+        } else {
+          return true;
+        }
+      },
+    },
+    // Ask what type of team member needs to be created
+    {
+      type: "list",
+      message: "Which type of team member would you like to add?",
+      name: "teamMember",
+      choices: [
+        "Engineer",
+        "Intern",
+        "I don't want to add any more team members",
+      ],
+    },
+  ])
+  .then((answers) => {
+    const manager = new Manager(
+      answers.managerName,
+      answers.managerId,
+      answers.managerEmail,
+      answers.managerNum
+    );
+
+    team.push(manager);
+
+    team.forEach((element) => {
+      console.log(element);
+    });
+
+    console.log(answers.teamMember);
+
+    if (answers.teamMember == "Engineer") {
+      memberType = "Engineer";
+    } else if (answers.teamMember == "Intern") {
+      memberType = "Intern";
+    } else {
+      memberCreation = false;
+    }
+
+    nextTeamMember();
+
+    // managerHTML = `<div class="card employee-card">
+    //     <div class="card-header">
+    //         <h2 class="card-title">${manager.name}</h2>
+    //         <h3 class="card-title"><i class="fas fa-mug-hot mr-2"></i>${manager.getRole()}</h3>
+    //     </div>
+    //     <div class="card-body">
+    //       <ul class="list-group">
+    //           <li class="list-group-item">ID: ${manager.id}</li>
+    //           <li class="list-group-item">Email: <a href="mailto:${
+    //             manager.email
+    //           }">{{ email }}</a></li>
+    //           <li class="list-group-item">Office number: ${
+    //             manager.officeNumber
+    //           }</li>
+    //       </ul>
+    //     </div>
+    //     </div>`;
+  })
+  .catch((error) => {
+    if (error.isTtyError) {
+      console.log(error);
+    }
+  });
+//};
+
+//generateManager();
+
+function nextTeamMember() {
+  while (memberCreation) {
+    console.log("in");
+    if (memberType == "Engineer") {
+      console.log("Engineer");
+    } else if (memberType == "Intern") {
+      console.log("Intern");
+    } else {
+      memberCreation = false;
+    }
+  }
+}
 
 // Write code to use inquirer to gather information about the development team members,
 // and to create objects for each team member (using the correct classes as blueprints!)
