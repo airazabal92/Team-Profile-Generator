@@ -1,3 +1,6 @@
+/* GLOBAL VARIABLES 
+--------------------------------------------------------------*/
+
 const Manager = require("./lib/Manager");
 const Engineer = require("./lib/Engineer");
 const Intern = require("./lib/Intern");
@@ -16,7 +19,13 @@ const team = [];
 // Determines the current Employee type
 let memberType = "Manager";
 
-// Call questions function for manager
+// Block of HTML with all employees
+let htmlBlock = "";
+
+/* LOGIC & FUNCTIONS
+--------------------------------------------------------------*/
+
+// Set manager specific questions and validation
 let teamMemberId = "manager's";
 let message = "What is your manager's office number?";
 let validateSpecial = async (input) => {
@@ -27,6 +36,7 @@ let validateSpecial = async (input) => {
   }
 };
 
+// Ask user manager specific questions
 questions(teamMemberId, message, validateSpecial);
 
 // Asks user questions to create appropriate Employee objects
@@ -120,8 +130,7 @@ function questions(teamType, specialMessage, specialVal) {
     });
 }
 
-// Function takes in all the answers as parameters
-
+// Function takes in all the user answers as parameters
 function makeEmployee(
   employeeName,
   employeeId,
@@ -135,8 +144,7 @@ function makeEmployee(
   console.log(employeeSpecial);
   console.log(nextMember);
 
-  // Creates object depending on the current employee type
-
+  // Creates object depending on the current employee type and adds employee to team array.
   if (memberType == "Manager") {
     let manager = new Manager(
       employeeName,
@@ -167,34 +175,44 @@ function makeEmployee(
     console.log(element);
   });
 
-  // Determines the questions for the next employee to be added
-
+  // Determine the questions for the next employee to be added and set the memberType to next employee type
   if (nextMember == "Engineer") {
-    questions(
-      "engineer's",
-      "What is your intern's GitHub username?",
-      async function (input) {
-        if (input === "") {
-          return "Please enter a valid username.";
-        } else {
-          return true;
-        }
+    // Set engineer specific questions and validation
+    let textEngineer = "engineer's";
+    let specialEngineerQ = "What is your engineer's GitHub username?";
+    let specialEngineerV = async function (input) {
+      if (input === "") {
+        return "Please enter a valid username.";
+      } else {
+        return true;
       }
-    );
+    };
+
+    // Set current member type to next member requested
     memberType = nextMember;
+
+    // Ask user the questions specific to enigneer employee
+    questions(textEngineer, specialEngineerQ, specialEngineerV);
   } else if (nextMember == "Intern") {
-    questions(
-      "intern's",
-      "What school did your intern attend?",
-      async function (input) {
-        if (input === "") {
-          return "Please enter a valid username.";
-        } else {
-          return true;
-        }
+    // Set intern specific questions and validation
+    let textIntern = "intern's";
+    let specialInternQ = "What school did your intern attend?";
+    let specialInternV = async function (input) {
+      if (input === "") {
+        return "Please enter a valid username.";
+      } else {
+        return true;
       }
-    );
+    };
+    // Set current member type to next member requested
     memberType = nextMember;
+
+    // Ask user the questions specific to intern employee
+    questions(textIntern, specialInternQ, specialInternV);
+  } else {
+    // If no employee type was chosen, call renderer with team array
+    htmlBlock = render(team);
+    console.log(htmlBlock);
   }
 }
 
