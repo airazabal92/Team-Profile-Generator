@@ -10,144 +10,191 @@ const outputPath = path.join(OUTPUT_DIR, "team.html");
 
 const render = require("./lib/htmlRenderer");
 
+// Variable to store team members
 const team = [];
-let memberType = "";
-let memberCreation = true;
 
-// Function to create manager object
-//const generateManager = () => {
-inquirer
-  .prompt([
-    // Ask for manager's name & check to make sure field isn't empty
-    {
-      type: "input",
-      message: "What is your manager's name?",
-      name: "managerName",
-      validate: async (input) => {
-        if (input === "") {
-          return "Please provide a valid username.";
-        } else {
-          return true;
-        }
-      },
-    },
-    // Ask for manager's id & check to make sure input is a number or is not empty
-    {
-      type: "input",
-      message: "What is your manager's id?",
-      name: "managerId",
-      validate: async (input) => {
-        if (input === "" || isNaN(input)) {
-          return "Ids can only contain whole numbers.";
-        } else {
-          return true;
-        }
-      },
-    },
-    // Ask for manager's email & check to make sure input is a valid email or is not empty
-    {
-      type: "input",
-      message: "What is your manager's email?",
-      name: "managerEmail",
-      validate: async (input) => {
-        const emailValidation = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(
-          input
-        );
-        if (input === "" || !emailValidation) {
-          return "Please enter a valid email address.";
-        } else {
-          return true;
-        }
-      },
-    },
-    // Ask for manager's number & check to make sure input is a number or is not empty
-    {
-      type: "input",
-      message: "What is your manager's office number?",
-      name: "managerNum",
-      validate: async (input) => {
-        if (input === "" || isNaN(input)) {
-          return "Please enter a valid number.";
-        } else {
-          return true;
-        }
-      },
-    },
-    // Ask what type of team member needs to be created
-    {
-      type: "list",
-      message: "Which type of team member would you like to add?",
-      name: "teamMember",
-      choices: [
-        "Engineer",
-        "Intern",
-        "I don't want to add any more team members",
-      ],
-    },
-  ])
-  .then((answers) => {
-    const manager = new Manager(
-      answers.managerName,
-      answers.managerId,
-      answers.managerEmail,
-      answers.managerNum
-    );
+// Determines the current Employee type
+let memberType = "Manager";
 
-    team.push(manager);
+// Call questions function for manager
+let teamMemberId = "manager's";
+let message = "What is your manager's office number?";
+let validateSpecial = async (input) => {
+  if (input === "" || isNaN(input)) {
+    return "Please enter a valid number.";
+  } else {
+    return true;
+  }
+};
 
-    team.forEach((element) => {
-      console.log(element);
+questions(teamMemberId, message, validateSpecial);
+
+// Asks user questions to create appropriate Employee objects
+// Function takes teamType (manager/engineer/intern) and special Message/Val for forth question
+// First questions stay the same since they are the same for all employees
+
+function questions(teamType, specialMessage, specialVal) {
+  let nameMessage = "What is your " + teamType + " name?";
+  console.log(nameMessage);
+  let idMessage = "What is your " + teamType + " id?";
+  let emailMessage = "What is your " + teamType + " email?";
+  console.log("Member Type START: " + memberType);
+  inquirer
+    .prompt([
+      // Ask for employee's name & check to make sure field isn't empty
+      {
+        type: "input",
+        message: nameMessage,
+        name: "name",
+        validate: async (input) => {
+          if (input === "") {
+            return "Please provide a valid name.";
+          } else {
+            return true;
+          }
+        },
+      },
+      // Ask for employee's id & check to make sure input is a number or is not empty
+      {
+        type: "input",
+        message: idMessage,
+        name: "id",
+        validate: async (input) => {
+          if (input === "" || isNaN(input)) {
+            return "Ids can only contain whole numbers.";
+          } else {
+            return true;
+          }
+        },
+      },
+      // Ask for employee's email & check to make sure input is a valid email or is not empty
+      {
+        type: "input",
+        message: emailMessage,
+        name: "email",
+        validate: async (input) => {
+          const emailValidation = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(
+            input
+          );
+          if (input === "" || !emailValidation) {
+            return "Please enter a valid email address.";
+          } else {
+            return true;
+          }
+        },
+      },
+      // Ask special question for Manager (office phone number), Engineer (GitHub account), Intern (school)
+      // Include special validation depending the type of input
+      {
+        type: "input",
+        message: specialMessage,
+        name: "special",
+        validate: specialVal,
+      },
+      // Ask what type of team member needs to be created next
+      {
+        type: "list",
+        message: "Which type of team member would you like to add?",
+        name: "teamMember",
+        choices: [
+          "Engineer",
+          "Intern",
+          "I don't want to add any more team members",
+        ],
+      },
+    ])
+    .then((answers) => {
+      // Call function to create employee to add to team array
+      makeEmployee(
+        answers.name,
+        answers.id,
+        answers.email,
+        answers.special,
+        answers.teamMember
+      );
+    })
+    .catch((error) => {
+      if (error.isTtyError) {
+        console.log(error);
+      }
     });
+}
 
-    console.log(answers.teamMember);
+// Function takes in all the answers as parameters
 
-    if (answers.teamMember == "Engineer") {
-      memberType = "Engineer";
-    } else if (answers.teamMember == "Intern") {
-      memberType = "Intern";
-    } else {
-      memberCreation = false;
-    }
+function makeEmployee(
+  employeeName,
+  employeeId,
+  employeeEmail,
+  employeeSpecial,
+  nextMember
+) {
+  console.log(employeeName);
+  console.log(employeeId);
+  console.log(employeeEmail);
+  console.log(employeeSpecial);
+  console.log(nextMember);
 
-    nextTeamMember();
+  // Creates object depending on the current employee type
 
-    // managerHTML = `<div class="card employee-card">
-    //     <div class="card-header">
-    //         <h2 class="card-title">${manager.name}</h2>
-    //         <h3 class="card-title"><i class="fas fa-mug-hot mr-2"></i>${manager.getRole()}</h3>
-    //     </div>
-    //     <div class="card-body">
-    //       <ul class="list-group">
-    //           <li class="list-group-item">ID: ${manager.id}</li>
-    //           <li class="list-group-item">Email: <a href="mailto:${
-    //             manager.email
-    //           }">{{ email }}</a></li>
-    //           <li class="list-group-item">Office number: ${
-    //             manager.officeNumber
-    //           }</li>
-    //       </ul>
-    //     </div>
-    //     </div>`;
-  })
-  .catch((error) => {
-    if (error.isTtyError) {
-      console.log(error);
-    }
+  if (memberType == "Manager") {
+    let manager = new Manager(
+      employeeName,
+      employeeId,
+      employeeEmail,
+      employeeSpecial
+    );
+    team.push(manager);
+  } else if (memberType == "Engineer") {
+    let engineer = new Engineer(
+      employeeName,
+      employeeId,
+      employeeEmail,
+      employeeSpecial
+    );
+    team.push(engineer);
+  } else {
+    let intern = new Intern(
+      employeeName,
+      employeeId,
+      employeeEmail,
+      employeeSpecial
+    );
+    team.push(intern);
+  }
+
+  team.forEach((element) => {
+    console.log(element);
   });
-//};
 
-//generateManager();
+  // Determines the questions for the next employee to be added
 
-function nextTeamMember() {
-  while (memberCreation) {
-    console.log("in");
-    if (memberType == "Engineer") {
-      console.log("Engineer");
-    } else if (memberType == "Intern") {
-      console.log("Intern");
-    } else {
-      memberCreation = false;
-    }
+  if (nextMember == "Engineer") {
+    questions(
+      "engineer's",
+      "What is your intern's GitHub username?",
+      async function (input) {
+        if (input === "") {
+          return "Please enter a valid username.";
+        } else {
+          return true;
+        }
+      }
+    );
+    memberType = nextMember;
+  } else if (nextMember == "Intern") {
+    questions(
+      "intern's",
+      "What school did your intern attend?",
+      async function (input) {
+        if (input === "") {
+          return "Please enter a valid username.";
+        } else {
+          return true;
+        }
+      }
+    );
+    memberType = nextMember;
   }
 }
 
