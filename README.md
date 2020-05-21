@@ -25,7 +25,7 @@ The application prompts the user for information about the team manager and team
 
 ## Jest
 
-![alt text](https://i.imgur.com/gxdS3ii.png "Jest testing")
+<img src="https://i.imgur.com/gxdS3ii.png" alt="Jest testing" width="600"/>
 
 ## Demo
 
