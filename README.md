@@ -9,7 +9,17 @@ A command-line application that lets a user create a nicely formatted team roste
 The application prompts the user for information about the team manager and team members. The user can input any number of engineers or interns along with their relevant contact information. Once the user completes building their team, an HTML file that displays the team member information is generated.
 
 **Validation**
+
 The application a regular expressions to validate the email input. It also checks to ensure that only numbers are entered in fields that should only have numbers (ids, phone number) and makes sure no field is empty.
+
+## Table of Contents
+
+- [Technologies Used](#technologies%20used)
+- [Demo](#demo)
+- [Jest Tesing](#jest%20testing)
+- [Installation](#installation)
+- [Questions](#questions)
+- [License](#license)
 
 ## Technologies Used
 
@@ -22,14 +32,7 @@ The application a regular expressions to validate the email input. It also check
 
 <img src="https://i.imgur.com/J1KgiSH.gif" alt="Demo"/>
 
-## Table of Contents
-
-- [Jest Tesing](#jest)
-- [Installation](#installation)
-- [Questions](#questions)
-- [License](#license)
-
-## Jest
+## Jest Testing
 
 <img src="https://i.imgur.com/gxdS3ii.png" alt="Jest testing" width="600"/>
 
