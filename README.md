@@ -38,7 +38,7 @@ The application a regular expressions to validate the email input. It also check
 
 ## Installation
 
-Download the scripts in the <i><b>lib folder</b></i>, the template HTMLs in the <i><b>template folder</b></i>, the <i><b>package.json</b></i> file, and <i><b>app.js</b></i> files to be able to run application in the command line.
+Download the scripts in the <b>lib folder</b>, the template HTMLs in the <b>template folder</b>, the <b>package.json</b> file, and <b>app.js</b> files to be able to run application in the command line.
 
 The application is invoked with the following command:
 
@@ -46,11 +46,11 @@ The application is invoked with the following command:
 node index.js
 ```
 
-The <i><b>templates</b></i> folder contains the base HTML files used to create the final <i><b>team.html</b></i> file.
+The <b>templates</b> folder contains the base HTML files used to create the final <b>team.html</b> file.
 
-The <i><b>output folder</b></i> contains a sample team HTML file. The folder is required for the application to be able to create the <i><b>team.html</b></i> file after the user completes inputting all team member information.
+The <b>output folder</b> contains a sample team HTML file. The folder is required for the application to be able to create the <b>team.html</b> file after the user completes inputting all team member information.
 
-The <i><b>test folder</b></i> contains tests using Jest that were run to assure that the application functions correctly.
+The <b>test folder</b> contains tests using Jest that were run to assure that the application functions correctly.
 
 ## Questions
 
