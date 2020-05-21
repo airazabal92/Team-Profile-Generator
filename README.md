@@ -15,13 +15,19 @@ The application prompts the user for information about the team manager and team
 - Bootstrap
 - Jest
 
-## Demo
-
 ## Table of Contents
 
+- [Jest Tesing](#jest)
+- [Demo](#demo)
 - [Installation](#installation)
 - [Questions](#questions)
 - [License](#license)
+
+## Jest
+
+![alt text](https://i.imgur.com/gxdS3ii.png "Jest testing")
+
+## Demo
 
 ## Installation
 
