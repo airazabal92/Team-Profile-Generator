@@ -14,9 +14,9 @@ The application a regular expressions to validate the email input. It also check
 
 ## Table of Contents
 
-- [Technologies Used](#technologies%20used)
+- [Technologies Used](#technologies-used)
 - [Demo](#demo)
-- [Jest Tesing](#jest%20testing)
+- [Jest Tesing](#jest-testing)
 - [Installation](#installation)
 - [Questions](#questions)
 - [License](#license)
