@@ -200,10 +200,6 @@ function makeEmployee(
   } else {
     // If no employee type was chosen, call renderer with team array
     htmlBlock = render(team);
-    console.log(htmlBlock);
-    team.forEach((element) => {
-      console.log(element);
-    });
     outputHTML();
   }
 }
