@@ -10,7 +10,7 @@ The application prompts the user for information about the team manager and team
 
 **Validation**
 
-The application a regular expressions to validate the email input. It also checks to ensure that only numbers are entered in fields that should only have numbers (ids, phone number) and makes sure no field is empty.
+The application uses a regular expression to validate the email input. It also checks to ensure that only numbers are entered in fields that should only have numbers (ids, phone number) and makes sure no field is empty.
 
 ## Table of Contents
 
@@ -24,6 +24,7 @@ The application a regular expressions to validate the email input. It also check
 ## Technologies Used
 
 - Node.js
+- Inquirer.js
 - HTML
 - Bootstrap
 - Jest
@@ -43,7 +44,7 @@ Download the scripts in the <b>lib folder</b>, the template HTMLs in the <b>temp
 The application is invoked with the following command:
 
 ```sh
-node index.js
+node app.js
 ```
 
 The <b>templates</b> folder contains the base HTML files used to create the final <b>team.html</b> file.
